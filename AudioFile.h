@@ -82,6 +82,12 @@ public:
      * @Returns true if the file was successfully loaded
      */
     bool load (std::string filePath);
+
+    //=============================================================
+    /** Loads an audio file directly from memory.
+     * @Returns true if the file was successfully loaded
+     */
+    bool load ( std::vector<uint8_t>& fileData);
     
     /** Saves an audio file to a given file path.
      * @Returns true if the file was successfully saved
@@ -461,7 +467,12 @@ bool AudioFile<T>::load (std::string filePath)
     file.unsetf (std::ios::skipws);
     std::istream_iterator<uint8_t> begin (file), end;
     std::vector<uint8_t> fileData (begin, end);
-    
+
+    return load(fileData);
+}
+template <class T>
+bool AudioFile<T>::load ( std::vector<uint8_t>& fileData )
+{
     // get audio file format
     audioFileFormat = determineAudioFileFormat (fileData);
     
